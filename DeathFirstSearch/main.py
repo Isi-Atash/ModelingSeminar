@@ -1,52 +1,69 @@
+from collections import deque
 import sys
+import math
 
-# Read initialization data
+def find_shortest_path(graph, start, end):
+    # Create a dictionary to store the parent node of each node in the path.
+    parent = {}
+    
+    # Create a queue for BFS and enqueue the start node.
+    queue = deque([start])
+    
+    # Initialize the parent of the start node as None.
+    parent[start] = None
+    
+    while queue:
+        current_node = queue.popleft()
+        
+        # If we've reached the end node, reconstruct and return the path.
+        if current_node == end:
+            path = []
+            while current_node is not None:
+                path.append(current_node)
+                current_node = parent[current_node]
+            return list(reversed(path))
+        
+        # Explore neighbors of the current node.
+        for neighbor in graph[current_node]:
+            if neighbor not in parent:
+                parent[neighbor] = current_node
+                queue.append(neighbor)
+    
+    # If no path is found, return None to indicate no path exists.
+    return None
+
+
+# Read the initial inputs
 n, l, e = map(int, input().split())
-links = []  # Store information about links between nodes
-gateways = set()  # Store the indices of gateway nodes
+graph = {i: [] for i in range(n)}
 
+# Build the graph based on link information
 for i in range(l):
     n1, n2 = map(int, input().split())
-    links.append((n1, n2))
+    graph[n1].append(n2)
+    graph[n2].append(n1)
 
+# Store the gateway nodes
+gateway_nodes = set()
 for i in range(e):
     ei = int(input())
-    gateways.add(ei)
-
-# Initialize a dictionary to track the number of links connected to each node
-node_links = {i: 0 for i in range(n)}
+    gateway_nodes.add(ei)
 
 # Game loop
 while True:
-    si = int(input())  # Current position of the Bobnet agent
-
-    # Implement the strategy to decide which link to sever
-    chosen_link = None
-
-    # Look for links connected to the agent's current position that lead to gateways
-    for link in links:
-        n1, n2 = link
-        if (n1 == si and n2 in gateways) or (n2 == si and n1 in gateways):
-            chosen_link = link
-            break
-
-    if chosen_link is None:
-        # If no direct links to gateways are found, sever a link connected to a node with the fewest links
-        min_links = min(node_links.values())
-        for link in links:
-            n1, n2 = link
-            if node_links[n1] == min_links or node_links[n2] == min_links:
-                chosen_link = link
-                break
-
-    if chosen_link:
-        c1, c2 = chosen_link
-        links.remove(chosen_link)  # Remove the chosen link from the list
-        node_links[c1] -= 1
-        node_links[c2] -= 1
-    else:
-        # If no links are left to sever, you can choose any valid link
-        c1, c2 = 0, 1
-
-    # Output the indices of the nodes to sever the link between
-    print(f"{c1} {c2}")
+    si = int(input())  # T5he index of the node on which the Bobnet agent is positioned this turn
+    
+    # Find the nearest gateway node from the current position
+    nearest_gateway = None
+    shortest_distance = float('inf')
+    
+    for gateway_node in gateway_nodes:
+        path = find_shortest_path(graph, si, gateway_node)
+        if path and len(path) < shortest_distance:
+            shortest_distance = len(path)
+            nearest_gateway = gateway_node
+    
+    # Output the next move (the first two nodes in the path)
+    
+    path = find_shortest_path(graph, si, nearest_gateway)
+    print(f'{path[0]} {path[1]}')
