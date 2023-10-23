@@ -1,0 +1,89 @@
+# DGY785
+# python3
+
+def calculate_modular_inverse(num, modulo):
+    # Calculate the modular inverse using the extended Euclidean algorithm
+    gcd, x, _ = extended_gcd(num, modulo)
+    if gcd == 1:
+        return x % modulo
+    else:
+        return None
+
+def extended_gcd(x, y):
+    # Calculate the greatest common divisor (gcd) of two numbers 'x' and 'y'
+    # along with coefficients using the extended Euclidean algorithm
+    if x == 0:
+        return (y, 0, 1)
+    else:
+        result, a, b = extended_gcd(y % x, x)
+        return (result, b - (y // x) * a, a)
+
+def initialize_inverse_matrix(header_size):
+    # Initialize the inverse matrix with diagonal elements set to 1
+    inverse_matrix = [[0] * header_size for _ in range(header_size)]
+    for i in range(header_size):
+        inverse_matrix[i][i] = 1
+    return inverse_matrix
+
+def perform_gaussian_elimination(encoded_data, inverse_matrix, modulus, header_size):
+    # Perform Gauss-Jordan elimination to find the inverse of the encoded data
+    for col in range(header_size):
+        col_value = calculate_modular_inverse(encoded_data[col][col], modulus)
+        for j in range(header_size):
+            encoded_data[col][j] = (encoded_data[col][j] * col_value) % modulus
+            inverse_matrix[col][j] = (inverse_matrix[col][j] * col_value) % modulus
+        for row in range(header_size):
+            if row != col:
+                factor = encoded_data[row][col]
+                for i in range(header_size):
+                    encoded_data[row][i] = (encoded_data[row][i] - factor * encoded_data[col][i]) % modulus
+                    inverse_matrix[row][i] = (inverse_matrix[row][i] - factor * inverse_matrix[col][i]) % modulus
+    return inverse_matrix
+
+def decode_message(encoded_data, inverse_matrix, header_size, message_size, modulus):
+    # Decode the message parts using the inverse matrix
+    decoded_parts = []
+    for i in range(header_size):
+        decoded_part = []
+        for j in range(message_size):
+            decoded_char = 0
+            for k in range(header_size):
+                decoded_char = (decoded_char + inverse_matrix[i][k] * encoded_data[k][header_size + j]) % modulus
+            decoded_part.append(decoded_char)
+        decoded_parts.append(decoded_part)
+    return decoded_parts
+
+def convert_to_text(decoded_parts):
+    # Convert the decoded characters to their ASCII representations and concatenate them
+    decoded_message = ''
+    for part in decoded_parts:
+        for cr in part:
+            decoded_message += chr(cr)
+    return decoded_message
+
+def decrypt_message(header_size, message_size, encoded_data, modulus):
+    # Initialize the inverse encoding matrix
+    inverse_matrix = initialize_inverse_matrix(header_size)
+    
+    # Perform Gauss-Jordan elimination to find the inverse
+    inverse_matrix = perform_gaussian_elimination(encoded_data, inverse_matrix, modulus, header_size)
+
+    # Decode the message parts using the inverse matrix
+    decoded_parts = decode_message(encoded_data, inverse_matrix, header_size, message_size, modulus)
+
+    # Convert the decoded characters to their ASCII representations and concatenate
+    converted_text = convert_to_text(decoded_parts)
+
+    return converted_text
+
+# Read input
+header_size = int(input())
+message_size = int(input())
+encoded_data = [list(map(ord, input().strip())) for _ in range(header_size)]
+modulus = 127
+
+# Decrypt the message
+decrypted_message = decrypt_message(header_size, message_size, encoded_data, modulus)
+
+# Print the decrypted message
+print(decrypted_message)

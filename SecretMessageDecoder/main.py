@@ -1,88 +1,76 @@
 # DGY785
 # python3
 
-def modulo_inverse(num, modulo):
-    # Calculate the modular inverse of 'num' under 'modulo'
-    gcd, x, _ = modified_gcd(num, modulo)
-    if gcd == 1:
-        return x % modulo
+def i(n, m):
+    g, x, _ = g(n, m)
+    if g == 1:
+        return x % m
     else:
         return None
 
-def modified_gcd(x, y):
-    # Calculate the greatest common divisor (gcd) of 'x' and 'y' along with coefficients
+def g(x, y):
     if x == 0:
         return (y, 0, 1)
     else:
-        result, a, b = modified_gcd(y % x, x)
-        return (result, b - (y // x) * a, a)
+        r, a, b = g(y % x, x)
+        return (r, b - (y // x) * a, a)
 
-def initialize_inverse_header(header_size):
-    # Initialize the inverse header matrix
-    inverse_header = [[0] * header_size for _ in range(header_size)]
-    for i in range(header_size):
-        inverse_header[i][i] = 1  # Initialize the diagonal elements to 1
-    return inverse_header
+def v(h):
+    o = [[0] * h for _ in range(h)]
+    for i in range(h):
+        o[i][i] = 1 
+    return o
 
-def gaussian_elimination(encoded_data, inverse_header, modulus, header_size):
-    # Perform Gauss-Jordan elimination to find the inverse
-    for col in range(header_size):
-        col_value = modulo_inverse(encoded_data[col][col], modulus)
-        for j in range(header_size):
-            encoded_data[col][j] = (encoded_data[col][j] * col_value) % modulus
-            inverse_header[col][j] = (inverse_header[col][j] * col_value) % modulus
-        for row in range(header_size):
+def g(e, h, m, s):
+    for col in range(s):
+        col_value = i(e[col][col], m)
+        for j in range(s):
+            e[col][j] = (e[col][j] * col_value) % m
+            h[col][j] = (h[col][j] * col_value) % m
+        for row in range(s):
             if row != col:
-                factor = encoded_data[row][col]
-                for i in range(header_size):
-                    encoded_data[row][i] = (encoded_data[row][i] - factor * encoded_data[col][i]) % modulus
-                    inverse_header[row][i] = (inverse_header[row][i] - factor * inverse_header[col][i]) % modulus
-    return inverse_header
+                factor = e[row][col]
+                for i in range(s):
+                    e[row][i] = (e[row][i] - factor * e[col][i]) % m
+                    h[row][i] = (h[row][i] - factor * h[col][i]) % m
+    return h
 
-def decode_message(encoded_data, gaus_inverse_header, header_size, message_size, modulus):
+def d(e, g, h, s, m):
     # Decode the message parts using the inverse header
     decoded_parts = []
-    for i in range(header_size):
+    for i in range(h):
         decoded_part = []
-        for j in range(message_size):
+        for j in range(s):
             decoded_char = 0
-            for k in range(header_size):
-                decoded_char = (decoded_char + gaus_inverse_header[i][k] * encoded_data[k][header_size + j]) % modulus
+            for k in range(h):
+                decoded_char = (decoded_char + g[i][k] * e[k][h + j]) % m
             decoded_part.append(decoded_char)
         decoded_parts.append(decoded_part)
     return decoded_parts
 
-def convert_to_text(decoded_parts):
-    # Convert the decoded characters to their ASCII representations and concatenate
-    decoded_message = ''
-    for part in decoded_parts:
-        for cr in part:
-            decoded_message += chr(cr)
-    return decoded_message
+def l(d):
+    m = ''
+    for p in d:
+        for c in p:
+            m += chr(c)
+    return m
 
-def decrypt_message(header_size, message_size, encoded_data, modulus):
-    # Initialize the inverse encoding header matrix
-    inverse_header = initialize_inverse_header(header_size)
+def j(h, m, e, a):
+    i = v(h)
     
-    # Perform Gauss-Jordan elimination to find the inverse
-    gaus_inverse_header = gaussian_elimination(encoded_data, inverse_header, modulus, header_size)
+    v = g(e, i, a, h)
 
-    # Decode the message parts using the inverse header
-    decoded_parts = decode_message(encoded_data, gaus_inverse_header, header_size, message_size, modulus)
+    s = d(e, v, h, m, a)
 
-    # Convert the decoded characters to their ASCII representations and concatenate
-    converted_text = convert_to_text(decoded_parts)
+    c = l(s)
 
-    return converted_text
+    return c
 
-# Read input
-header_size = int(input())
-message_size = int(input())
-encoded_data = [list(map(ord, input().strip())) for _ in range(header_size)]
-modulus = 127
+h = int(input())
+s = int(input())
+y = [list(map(ord, input().strip())) for _ in range(h)]
+m = 127
 
-# Decrypt the message
-decrypted_message = decrypt_message(header_size, message_size, encoded_data, modulus)
+u = j(h, s, y, m)
 
-# Print the decrypted message
-print(decrypted_message)
+print(u)
