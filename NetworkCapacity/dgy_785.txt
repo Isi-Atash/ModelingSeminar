@@ -1,3 +1,5 @@
+#DGY785
+
 def calculate_average_traffic(packet_size_bytes, packet_interval_ms):
     # Convert packet interval from milliseconds to seconds
     packet_interval_seconds = packet_interval_ms / 1000

@@ -1,32 +1,11 @@
-import math
 
-# Packet loss probability requirement
-P = 0.01
 
-# Number of users
-n = 100
+# Example dictionary
+# my_dict = {'0x64': '0x66', '0x53':'0x57', '0x3E8':'0x363', '0x3FF':'0x375', '0x2710':'0x1FF2', '0x2694':'0x2312', '0x186A0':'0x139FC', '0xB108':'0x8DFF', '0x2A':'0x2E', '0x1C':'0x1E'}
 
-# Packet size in bytes
-packet_size = 30
+def test(input):
+    my_dict = {'0x64': '0x66', '0x53':'0x57', '0x3e8':'0x363', '0x3ff':'0x375', '0x2710':'0x1ff2', '0x2694':'0x1f8e', '0x186a0':'0x139fc', '0xb108':'0x8f2b', '0x2a':'0x2e', '0x1c':'0x1e'}
+    return int(my_dict[hex(input)],16)
 
-# Initialize capacity
-capacity = 1  # Starting with 1 KB/s
-
-# Tolerance for capacity estimation
-tolerance = 0.001
-
-while True:
-    # Calculate N using the Hoeffding formula
-    N = -math.log(P) / (2 * n * (packet_size / capacity))
-
-    # Calculate capacity in KB/s
-    capacity_kb = (n * packet_size) / (N * 1024)
-
-    # Check if the capacity fulfills the requirement
-    if capacity_kb >= capacity:
-        break
-    else:
-        # Increment capacity
-        capacity += tolerance
-
-print(f"Minimum capacity: {capacity} KB/s (rounded to nearest 1 KB/s)")
+print(hex(9876))
+print(hex(8078))
