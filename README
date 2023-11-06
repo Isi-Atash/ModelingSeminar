@@ -1,0 +1,42 @@
+# Modelling Seminar Homework Collection
+
+This repository is a collection of homework tasks for the Modelling Seminar course at the Budapest University of Technology and Economics (BME). The primary purpose of this repository is to maintain version control of my solutions, track my progress throughout the course, and ensure easy access to my work from multiple devices.
+
+## Overview
+
+The Modelling Seminar course at BME provides a comprehensive introduction to mathematical and computational modelling techniques. Homework tasks are assigned to reinforce theoretical concepts with practical application.
+
+## Repository Structure
+
+Each folder in the repository corresponds to a specific homework assignment or topic within the Modelling Seminar curriculum. Within each folder, you will find:
+
+- The homework task description or problem statement.
+- Source code files containing solutions to the tasks.
+- Any additional resources or reference materials used.
+
+## Getting Started
+
+To get a copy of this repository, simply clone it using the following command:
+
+```bash
+git clone https://github.com/Isi-Atash/ModellingSeminar.git
+```
+
+Then you can navigate to any assignment directory to find the task and corresponding solution.
+
+## Contribution
+
+This repository is personal and is mainly intended for my own use. However, contributions, suggestions, or questions are welcome from classmates, instructors, or anyone interested in the subject matter.
+
+## License
+
+The contents of this repository are licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
+
+## Contact
+
+If you have questions or comments about this repository, please open an issue or reach out to me directly at [ismayil.ismayilzada.r@gmail.com](mailto:ismayil.ismayilzada.r@gmail.com).
+
+## Acknowledgments
+
+- The faculty and staff of the Modelling Seminar course at BME.
+- My peers at BME for their invaluable insights and discussions.
