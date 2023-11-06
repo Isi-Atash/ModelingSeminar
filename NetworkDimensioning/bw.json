@@ -1,0 +1,1 @@
+{'bronze':{'bw': 1, 'value': 2, 'damage':4, 'duration': 100, 'pr': 0.4}, 'silver': {'bw': 3, 'value': 5, 'damage':6, 'duration': 50, 'pr': 0.3}, 'gold':{'bw': 10, 'value': 30, 'damage':80, 'duration': 70, 'pr': 0.1}}
