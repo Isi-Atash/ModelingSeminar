@@ -1,1 +1,23 @@
 https://docs.google.com/forms/d/e/1FAIpQLSew_8PLv7TLZ23mFV57hffGiY_DqosPiZtWLpmM1Lw850B0Aw/viewform?hr_submission=ChkIpICT2JQREhAIuIiQ05MREgcIk4iQ05MREAE
+
+Algorithm CountLeavesPreOrder(node, currentDistance)
+  if node is null then
+    return 0
+  end if
+
+  if currentDistance is 9 and node has no children then
+    return 1
+  end if
+
+  leafCount := 0
+  for each child in node.children do
+    leafCount := leafCount + CountLeavesPreOrder(child, currentDistance + 1)
+  end for
+
+  return leafCount
+End Algorithm
+
+// Usage:
+root := initialize your tree here
+leafCount := CountLeavesPreOrder(root, 0) // Start with distance 0 from the root
+Print "Number of leaves at distance 9: ", leafCount
