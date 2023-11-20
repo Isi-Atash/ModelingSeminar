@@ -1,4 +1,6 @@
-# Let's first define a TrieNode class to represent each node in the trie
+import sys
+import math
+
 class TrieNode:
     def __init__(self):
         self.children = {}
@@ -26,14 +28,12 @@ class Trie:
             count += self._count_nodes_recursive(child)
         return count
 
-# Create a hypothetical list of phone numbers
-phone_numbers = [
-    "0123456789",
-"1123456789"
+n = int(input())
+phone_numbers = []
+for i in range(n):
+    telephone = input()
+    phone_numbers.append(telephone)
 
-]
-
-# Create a trie and insert phone numbers
 trie = Trie()
 for number in phone_numbers:
     trie.insert(number)
