@@ -1,4 +1,4 @@
-# NEPTUN.py
+# DGY785.py
 from VNE_classes import Graph, Claim
 from itertools import permutations
 
