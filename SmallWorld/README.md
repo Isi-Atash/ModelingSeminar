@@ -72,6 +72,49 @@ To run the code, follow these steps:
 4. The script will generate networks with predefined `n`, `k`, and `p` values, calculate their properties, and save the results in `network_properties.csv` and `network_properties.txt`. Optionally, it will also display plots of these networks.
 5. You can modify the `n_values`, `k_values`, and `p_values_list` in the script to generate networks with different parameters.
 
+## Code Explanation and Methods
+
+This project implements a Python script that generates small-world networks using the Watts-Strogatz model, analyzes their properties, and visualizes their structures. Below is a detailed explanation of the core functions within the script:
+
+### `create_small_world_network(n, k, p)` Function
+
+This function generates a small-world network based on the following parameters:
+
+- `n`: Number of nodes in the network.
+- `k`: Each node is connected to `k` nearest neighbors in a ring topology before rewiring.
+- `p`: Probability of rewiring each edge, which introduces randomness into the network.
+
+The function returns a network `G` constructed according to the Watts-Strogatz model, facilitating the study of small-world phenomena.
+
+### `network_properties(G)` Function
+
+This function calculates the following properties of a given network `G`:
+
+- **Diameter**: The longest shortest path between any two nodes. If `G` is disconnected, the diameter is considered infinite.
+- **Clustering Coefficient**: Measures the degree to which nodes tend to cluster together. A higher value indicates a more tightly-knit group of nodes.
+- **Degree Distribution**: The distribution of connections each node has, represented by the frequency of each degree in the network.
+
+The properties are essential for understanding the nature of the network and are used for comparison with real-world data such as Internet topology.
+
+### `small_world(n, k, p_values)` Function
+
+The main driver function that:
+
+- Generates networks with varying `p` values using the `create_small_world_network` function.
+- Calls `network_properties` to compute network properties for each generated network.
+- Uses `matplotlib` to plot each network for visual analysis, highlighting the impact of `p` on the network's structure.
+- Stores the calculated properties for further analysis or comparison with networks such as the Internet.
+
+### Visualization and Analysis
+
+The script includes a plotting routine to visualize the networks' structures, which is invaluable for intuitively understanding the impact of the Watts-Strogatz model's parameters. These visualizations complement the numerical analysis and provide a direct way to observe the transition from regular lattices to random networks as `p` increases.
+
+To generate the visualizations and analyze the network properties, ensure to run the script and refer to the detailed results in the subsequent sections of this README.
+
+---
+
+This code forms the basis of our exploration into the structural dynamics of small-world networks and their comparison to real-world network topologies like the Internet.
+
 ## Results
 
 ### Summary of Results
